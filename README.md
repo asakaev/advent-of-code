@@ -1,9 +1,13 @@
 # Advent of code
 
+### Run
 ```
 sbt
-runMain package.Problem
+runMain captcha.Captcha
 ```
+
+--- Day 1: Inverse Captcha ---
+`http://adventofcode.com/2017/day/1`
 
 --- Day 19: A Series of Tubes ---
 `http://adventofcode.com/2017/day/19`
