@@ -15,6 +15,9 @@ runMain captcha.Captcha
 --- Day 3: Spiral Memory ---
 `http://adventofcode.com/2017/day/3`
 
+--- Day 4: High-Entropy Passphrases ---
+`http://adventofcode.com/2017/day/4`
+
 --- Day 19: A Series of Tubes ---
 `http://adventofcode.com/2017/day/19`
 
