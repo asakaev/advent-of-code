@@ -12,6 +12,9 @@ runMain captcha.Captcha
 --- Day 2: Corruption Checksum ---
 `http://adventofcode.com/2017/day/2`
 
+--- Day 3: Spiral Memory ---
+`http://adventofcode.com/2017/day/3`
+
 --- Day 19: A Series of Tubes ---
 `http://adventofcode.com/2017/day/19`
 
