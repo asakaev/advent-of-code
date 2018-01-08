@@ -18,6 +18,9 @@ runMain captcha.Captcha
 --- Day 4: High-Entropy Passphrases ---
 `http://adventofcode.com/2017/day/4`
 
+--- Day 5: A Maze of Twisty Trampolines, All Alike ---
+`http://adventofcode.com/2017/day/5`
+
 --- Day 19: A Series of Tubes ---
 `http://adventofcode.com/2017/day/19`
 
