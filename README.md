@@ -21,6 +21,9 @@ runMain captcha.Captcha
 --- Day 5: A Maze of Twisty Trampolines, All Alike ---
 `http://adventofcode.com/2017/day/5`
 
+--- Day 6: Memory Reallocation ---
+`http://adventofcode.com/2017/day/6`
+
 --- Day 19: A Series of Tubes ---
 `http://adventofcode.com/2017/day/19`
 
