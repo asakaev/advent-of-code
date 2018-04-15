@@ -1,5 +1,5 @@
 name := "advent-of-code"
 version := "0.1"
-scalaVersion := "2.12.4"
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.4" % "test"
+scalaVersion := "2.12.5"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % "test"
 scalacOptions ++= Seq("-unchecked")
