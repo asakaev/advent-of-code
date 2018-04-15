@@ -24,6 +24,9 @@ runMain captcha.Captcha
 --- Day 6: Memory Reallocation ---
 `http://adventofcode.com/2017/day/6`
 
+--- Day 7: Recursive Circus ---
+`https://adventofcode.com/2017/day/7`
+
 --- Day 19: A Series of Tubes ---
 `http://adventofcode.com/2017/day/19`
 
