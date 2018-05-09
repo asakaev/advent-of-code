@@ -1,13 +1,13 @@
 package circus
 
-import scala.util.{ Failure, Success, Try }
+import scala.util.{ Failure, Try }
 
 object StringParserCircus {
   import circus.CircusDef.{ Node, Nodes }
   import common.Decoder
+  import common.util._
 
   implicit val nodesDecoder: Decoder[Nodes] = (input: String) => {
-    def split(s: String)       = s.split('\n').toSeq
     def nodes(xs: Seq[String]) = xs.map(node)
 
     def node(s: String) = {
@@ -27,10 +27,5 @@ object StringParserCircus {
 
     (split _).andThen(nodes).andThen(transform).apply(input)
   }
-
-  def transform[A](xs: Seq[Try[A]]): Try[Seq[A]] =
-    xs.collectFirst { case Failure(e) => e }
-      .map(Failure(_))
-      .getOrElse(Success(xs.collect { case Success(a) => a }))
 
 }
