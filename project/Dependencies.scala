@@ -1,9 +1,9 @@
 import sbt._
 
 object Dependencies {
-  lazy val fs2Version       = "1.0.2"
-  lazy val catsVersion      = "1.5.0"
-  lazy val fastParseVersion = "2.1.0"
+  lazy val fs2Version       = "1.0.4"
+  lazy val catsVersion      = "1.6.0"
+  lazy val fastParseVersion = "2.1.2"
   lazy val scalaTestVersion = "3.0.5"
 
   val fs2       = "co.fs2"        %% "fs2-core"     % fs2Version

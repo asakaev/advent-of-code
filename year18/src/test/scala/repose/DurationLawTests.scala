@@ -9,6 +9,7 @@ import org.scalacheck.{Arbitrary, Gen}
 import repose.DurationLawTests._
 import repose.instances._
 
+// TODO: fix flaky test
 class DurationLawTests extends CatsSuite {
   checkAll("Duration.MonoidLaws", MonoidTests[Duration].monoid)
 }
