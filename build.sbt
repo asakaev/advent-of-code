@@ -19,3 +19,11 @@ lazy val year18 = (project in file("year18"))
     libraryDependencies ++= commonDeps,
     libraryDependencies ++= testDeps
   )
+
+lazy val year19 = (project in file("year19"))
+  .settings(
+    commonSettings,
+    name := "Advent of Code 2019",
+    libraryDependencies ++= commonDeps,
+    libraryDependencies ++= testDeps
+  )
