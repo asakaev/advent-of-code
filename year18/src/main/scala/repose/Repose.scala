@@ -2,27 +2,21 @@ package repose
 
 import java.nio.file.Paths
 import java.time._
-import java.util.concurrent.Executors
 
 import cats.Monoid
-import cats.effect.{ ExitCode, IO, IOApp, Resource }
+import cats.effect.{Blocker, ExitCode, IO, IOApp}
 import cats.implicits._
 import common.Parser._
-import fs2.{ io, text, Pure, Stream }
-import repose.Record.{ BeginsShift, FallsAsleep, WakesUp }
+import fs2.{Pure, Stream, io, text}
+import repose.Record.{BeginsShift, FallsAsleep, WakesUp}
 import repose.instances._
-
-import scala.concurrent.ExecutionContext
 
 object Repose extends IOApp {
 
-  private val blockingExecutionContext =
-    Resource.make(IO(ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(2))))(ec => IO(ec.shutdown()))
-
   val lines: Stream[IO, String] =
-    Stream.resource(blockingExecutionContext).flatMap { blockingEC =>
+    Stream.resource(Blocker[IO]).flatMap { blocker =>
       io.file
-        .readAll[IO](Paths.get("year18/data/repose.txt"), blockingEC, 4096)
+        .readAll[IO](Paths.get("year18/data/repose.txt"), blocker, 4096)
         .through(text.utf8Decode)
         .through(text.lines)
     }
@@ -92,11 +86,13 @@ object Repose extends IOApp {
         rs.sorted
           .foldLeft(StateA(None, Map.empty))(eventsByGuard)
           .m
+          .view
           .mapValues(_.reverse)
           .mapValues { rs =>
             rs.foldLeft(StateB(None, List.empty))(accumulate).spans
           }
           .filter(_._2.nonEmpty)
+          .toMap
       }
 
   def minutes2(span: Span): Range =
@@ -106,9 +102,9 @@ object Repose extends IOApp {
     spans
       .flatMap { m =>
         val durations: Map[Int, (Duration, List[Span])] =
-          m.mapValues { spans =>
+          m.view.mapValues { spans =>
             (Monoid[Duration].combineAll(spans.map(_.duration)), spans)
-          }
+          }.toMap
 
         val most   = durations.maxBy(_._2._1)
         val mostId = most._1

@@ -3,23 +3,20 @@ package slice
 import java.nio.file.Paths
 import java.util.concurrent.Executors
 
-import cats.effect.{ ExitCode, IO, IOApp, Resource }
+import cats.effect.{Blocker, ExitCode, IO, IOApp, Resource}
 import cats.implicits._
 import common.Parser._
-import fs2.{ io, text, Stream }
+import fs2.{Stream, io, text}
 import slice.Rectangle.Point
 
 import scala.concurrent.ExecutionContext
 
 object Slice extends IOApp {
 
-  private val blockingExecutionContext =
-    Resource.make(IO(ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(2))))(ec => IO(ec.shutdown()))
-
   val lines: Stream[IO, String] =
-    Stream.resource(blockingExecutionContext).flatMap { blockingEC =>
+    Stream.resource(Blocker[IO]).flatMap { blocker =>
       io.file
-        .readAll[IO](Paths.get("year18/data/slice.txt"), blockingEC, 4096)
+        .readAll[IO](Paths.get("year18/data/slice.txt"), blocker, 4096)
         .through(text.utf8Decode)
         .through(text.lines)
     }

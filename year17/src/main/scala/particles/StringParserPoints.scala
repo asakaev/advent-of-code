@@ -16,8 +16,8 @@ trait StringParserPoints extends ParticlesDef {
       case _                  => throw new Exception(s"Particle.none: $points")
     }
 
-  private def parts(s: String): Seq[String] =
-    s.split(", ")
+  private def parts(s: String): List[String] =
+    s.split(", ").toList
 
   private def numbers(s: String): String =
     s.substring(3, s.length - 1)

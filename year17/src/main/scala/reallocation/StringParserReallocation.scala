@@ -1,5 +1,5 @@
 package reallocation
 
 trait StringParserReallocation {
-  def parse(str: String): Seq[Int] = str.split(' ').map(_.toInt)
+  def parse(str: String): List[Int] = str.split(' ').toList.map(_.toInt)
 }

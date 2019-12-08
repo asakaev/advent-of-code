@@ -3,9 +3,9 @@ package inventory
 import java.nio.file.Paths
 import java.util.concurrent.Executors
 
-import cats.effect.{ ExitCode, IO, IOApp, Resource }
+import cats.effect.{Blocker, ExitCode, IO, IOApp, Resource}
 import cats.implicits._
-import fs2.{ Stream, io, text }
+import fs2.{Stream, io, text}
 
 import scala.concurrent.ExecutionContext
 
@@ -13,9 +13,6 @@ object Inventory extends IOApp {
 
   case class Candidate(two: Boolean, three: Boolean)
   case class State(two: Int, three: Int)
-
-  private val blockingExecutionContext =
-    Resource.make(IO(ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(2))))(ec => IO(ec.shutdown()))
 
   def candidate(boxId: String): Candidate = {
     val grouped = boxId.groupBy(identity).mapValues(_.size)
@@ -52,9 +49,9 @@ object Inventory extends IOApp {
     }
 
   val lines: Stream[IO, String] =
-    Stream.resource(blockingExecutionContext).flatMap { blockingEC =>
+    Stream.resource(Blocker[IO]).flatMap { blocker =>
       io.file
-        .readAll[IO](Paths.get("year18/data/inventory.txt"), blockingEC, 4096)
+        .readAll[IO](Paths.get("year18/data/inventory.txt"), blocker, 4096)
         .through(text.utf8Decode)
         .through(text.lines)
     }
@@ -82,7 +79,10 @@ object Inventory extends IOApp {
 
   def run(args: List[String]): IO[ExitCode] =
     (boxChecksum, commonLettersBoxes).parTupled
-      .flatMap { case (bc, cl) => IO(println(s"Box checksum: $bc")) *> IO(println(s"Common letters boxes: $cl")) }
+      .flatMap {
+        case (bc, cl) =>
+          IO(println(s"Box checksum: $bc")) *> IO(println(s"Common letters boxes: $cl"))
+      }
       .as(ExitCode.Success)
 
 }

@@ -1,25 +1,17 @@
 package fuel
 
 import java.nio.file.Paths
-import java.util.concurrent.Executors
 
-import cats.effect.{ExitCode, IO, IOApp, Resource}
+import cats.effect._
 import cats.implicits._
 import fs2._
 
-import scala.concurrent.ExecutionContext
-
 object Fuel extends IOApp {
 
-  private val blockingExecutionContext =
-    Resource.make(IO(ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(2))))(ec =>
-      IO(ec.shutdown())
-    )
-
   val lines: Stream[IO, String] =
-    Stream.resource(blockingExecutionContext).flatMap { blockingEC =>
+    Stream.resource(Blocker[IO]).flatMap { blocker =>
       io.file
-        .readAll[IO](Paths.get("year19/data/fuel.txt"), blockingEC, 4096)
+        .readAll[IO](Paths.get("year19/data/fuel.txt"), blocker, 4096)
         .through(text.utf8Decode)
         .through(text.lines)
         .filter(_.nonEmpty)

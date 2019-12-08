@@ -1,8 +1,11 @@
 import Dependencies._
 
-ThisBuild / scalaVersion := "2.12.8"
+ThisBuild / scalaVersion := "2.13.1"
 
-lazy val commonSettings = scalacOptions ++= Seq("-unchecked", "-language:higherKinds")
+lazy val commonSettings = scalacOptions ++= List(
+  "-unchecked",
+  "-language:higherKinds"
+)
 
 lazy val year17 = (project in file("year17"))
   .settings(
